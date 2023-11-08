@@ -7,7 +7,7 @@ class Attendance_model extends CI_Model {
     if ($query->num_rows() > 0) {
         return $query->result_array();
     } else {
-        return array(); // Return an empty array instead of null
+        return array();
     }
     }
 
@@ -15,5 +15,12 @@ class Attendance_model extends CI_Model {
         return $this->db->insert('attendance', $record);
     }
     
-    // Other methods for handling attendance data
+    public function get_attendance_by_student($student_id) {
+    $this->db->where('student_id', $student_id);
+    $query = $this->db->get('attendance');
+    return $query->result_array();
+}
+
+
+
 }
