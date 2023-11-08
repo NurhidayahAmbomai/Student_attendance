@@ -4,20 +4,18 @@ class Class_model extends CI_Model {
 
     public function __construct() {
         parent::__construct();
-        // Load database library
         $this->load->database();
     }
 
     public function create_class($data) {
-    	 if ($this->db->insert('classes', $data)) {
-        return true; // Data inserted successfully
+    if ($this->db->insert('classes', $data)) {
+        return true;
     } else {
-        // Debugging: Print out database errors
         var_dump($this->db->error());
-        die(); // Halt the script to see the output
-        return false; // Failed to insert data
+        die(); 
+        return false; 
     }
-    }
+} 
 
     public function get_classes_by_teacher($teacher_id) {
         $this->db->select('*');
@@ -31,8 +29,6 @@ class Class_model extends CI_Model {
             return array();
         }
     }
-
-    
 
     public function update_class($class_id, $data) {
         $this->db->where('id', $class_id);
