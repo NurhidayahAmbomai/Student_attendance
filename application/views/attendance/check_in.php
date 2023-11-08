@@ -31,7 +31,7 @@
             border: 1px solid #ddd;
         }
         th, td {
-            text-align: center; /* Center-align table data */
+            text-align: center;
             padding: 8px;
         }
         th {
@@ -65,12 +65,6 @@
 </head>
 <body>
     <div class="container">
-        <?php if ($this->session->flashdata('success')): ?>
-            <div class="alert alert-success">
-                <?php echo $this->session->flashdata('success'); ?>
-            </div>
-        <?php endif; ?>
-        
         <h1>Attendance Check-In</h1>
         <form action="<?php echo base_url('attendance/check_in'); ?>" method="post">
             <label for="class_id">Select Class:</label>
@@ -82,12 +76,16 @@
                     </option>
                 <?php endforeach; ?>
             </select>
-            <button type="submit" class="submit-btn">Select Class</button>
+            
         </form>
+        <?php
+            $checkin_time = date('Y-m-d H:i:s'); 
+        ?>
+        <p>Check-In Time: <?php echo $checkin_time; ?></p>
 
         <form action="<?php echo base_url('attendance/store'); ?>" method="post">
             <input type="hidden" name="class_id" value="<?php echo $class_id; ?>">
-
+            <input type="hidden" name="checkin_time" value="<?php echo $checkin_time; ?>">
             <table>
                 <tr>
                     <th>Student Name</th>
@@ -111,20 +109,24 @@
                         <td colspan="3">No students found for this class.</td>
                     </tr>
                 <?php endif; ?>
+
             </table>
+
 
             <button type="submit" class="submit-btn">Submit Attendance</button>
         </form>
     </div>
     <script>
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('class_id').addEventListener('change', function() {
-        var selectedClassId = this.value;
-        var form = this.closest('form');
-        form.submit();
-    });
-});
-</script>
-
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('class_id').addEventListener('change', function() {
+                var selectedClassId = this.value;
+                var form = this.closest('form');
+                form.submit();
+            });
+        });
+    </script>
 </body>
 </html>
+
+
+
