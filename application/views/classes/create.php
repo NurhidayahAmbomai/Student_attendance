@@ -33,7 +33,7 @@
         input[type="date"],
         input[type="time"] {
             width: 100%;
-            padding: 10px;
+            padding: 5px;
             margin-bottom: 20px;
             border: 1px solid #ccc;
             border-radius: 3px;
@@ -49,6 +49,17 @@
         button[type="submit"]:hover {
             background-color: #0056b3;
         }
+        button[type="view"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        button[type="view"]:hover {
+            background-color: #0056b3;
+        }
         .error {
             color: #ff0000;
             margin-top: 5px;
@@ -56,8 +67,8 @@
     </style>
 </head>
 <body>
-    <h1>Create a New Class</h1>
-    <form action="<?php echo base_url('classes/store'); ?>" method="post" onsubmit="return validateForm()">
+    <h1>Create Class</h1>
+    <form action="<?php echo base_url('classes/create'); ?>" method="post" onsubmit="return validateForm()">
         <label for="class_name">Class Name:</label>
         <input type="text" id="class_name" name="class_name" placeholder="Class Name" required />
 
@@ -70,7 +81,10 @@
         <input type="hidden" name="teacher_id" value="<?php echo $this->session->userdata('teacher_id'); ?>" />
 
         <button type="submit">Create New Class</button>
+        <button type="button" onclick="viewTeacherClasses()">View my Classes</button>
     </form>
+
+
 
     <script>
         function validateForm() {
@@ -95,6 +109,13 @@
 
             return true;
         }
+
+         function viewTeacherClasses() {
+        
+        window.location.href = "<?php echo base_url('classes/list_classes'); ?>";
+    }
+
     </script>
 </body>
 </html>
+
