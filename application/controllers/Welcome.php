@@ -45,7 +45,7 @@ class Welcome extends CI_Controller {
             $this->load->model('user_model');
             $this->user_model->insertuser($data); 
             $this->session->set_flashdata('success','Successfully User Created');
-            redirect(base_url('welcome/index'));
+            redirect(base_url('welcome/login'));
         }
         else
         {
@@ -60,50 +60,50 @@ function login()
 }
 
 function loginnow()
-{
-    if($_SERVER['REQUEST_METHOD'] == 'POST')
     {
-        $this->form_validation->set_rules('username', 'Username', 'required');
-        $this->form_validation->set_rules('password', 'Password', 'required');
-
-        if($this->form_validation->run() == TRUE)
+        if($_SERVER['REQUEST_METHOD'] == 'POST')
         {
-            $username = $this->input->post('username'); // Changed from 'email' to 'username'
-            $password = $this->input->post('password');
+            $this->form_validation->set_rules('username', 'Username', 'required');
+            $this->form_validation->set_rules('password', 'Password', 'required');
 
-            $this->load->model('user_model');
-            $user = $this->user_model->getUserByUsername($username);
-
-            if ($user != false && password_verify($password, $user->password))
+            if($this->form_validation->run() == TRUE)
             {
-                $session_data = array(
-                    'username' => $username,
-                    'user_type' => $user->user_type,
-                    'teacher_id' => $user->id
-                );
+                $username = $this->input->post('username');
+                $password = $this->input->post('password');
 
-                $this->session->set_userdata('UserLoginSession', $session_data);
+                $this->load->model('user_model');
+                $user = $this->user_model->getUserByUsername($username);
 
-                if ($user->user_type == 'teacher')
+                if ($user != false && password_verify($password, $user->password))
                 {
-                	redirect(base_url('welcome/teacher_dashboard'));
-                } elseif ($user->user_type == 'student') {
-                	redirect(base_url('welcome/student_dashboard'));
+                   
+                    $session_data = array(
+                        'username' => $username,
+                        'user_type' => $user->user_type
+                    );
+                    if ($user->user_type == 'teacher') {
+                        $session_data['teacher_id'] = $user->id;
+                        $this->session->set_userdata('UserLoginSession', $session_data);
+                        redirect(base_url('welcome/teacher_dashboard'));
+                    } elseif ($user->user_type == 'student') {
+                        $session_data['student_id'] = $user->id;
+                        $this->session->set_userdata('UserLoginSession', $session_data);
+                        redirect(base_url('welcome/student_dashboard'));
+                    }
                 }
-            }
+                else
+                {
+                    $this->session->set_flashdata('error', 'Username or password is wrong');
+                    redirect(base_url('welcome/login'));
+                }
+            } 
             else
             {
-                $this->session->set_flashdata('error', 'Username or password is wrong');
+                $this->session->set_flashdata('error', 'Fill all the required fields');
                 redirect(base_url('welcome/login'));
             }
-        } 
-        else
-        {
-            $this->session->set_flashdata('error', 'Fill all the required fields');
-            redirect(base_url('welcome/login'));
         }
     }
-}
 
 	function teacher_dashboard()
 	{
@@ -116,16 +116,13 @@ function loginnow()
 		
 	}
 
-	function student_dashboard()
-	{
-		$user = $this->session->userdata('UserLoginSession');
-		if ($user && $user['user_type'] == 'student') {
-			$this->load->view('student_dashboard');
-		}
-
-		else {
-			redirect(base_url('welcome/login'));
-		}
-	}
+	function student_dashboard() {
+    $user = $this->session->userdata('UserLoginSession');
+    if ($user && $user['user_type'] == 'student' && isset($user['student_id'])) {
+        $this->load->view('student_dashboard');
+    } else {
+        redirect(base_url('welcome/home'));
+    }
+}
 
 }
