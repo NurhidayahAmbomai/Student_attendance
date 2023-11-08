@@ -40,7 +40,7 @@ class Attendance extends CI_Controller {
             }
         }
         
-        $data['classes'] = $classes; // Pass classes for the dropdown
+        $data['classes'] = $classes;
         $this->load->view('attendance/check_in', $data);
     }
 
@@ -53,7 +53,7 @@ class Attendance extends CI_Controller {
                 'student_id' => $student_id,
                 'class_id' => $class_id,
                 'status' => $status,
-                'date' => date('Y-m-d') // Current date
+                'date' => date('Y-m-d')
             );
             $this->Attendance_model->add_record($record);
         }
@@ -62,3 +62,4 @@ class Attendance extends CI_Controller {
         redirect('attendance/check_in');
     }
 }
+
