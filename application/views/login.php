@@ -29,7 +29,7 @@
             background-color: #0056b3;
         }
         .container {
-            min-height: 100vh;
+            min-height: 30vh;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -51,7 +51,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Home</a>
+                        <a class="nav-link active" href="<?php echo base_url('welcome/register'); ?>">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="<?=base_url('welcome/login')?>">Login</a>
@@ -82,6 +82,14 @@
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
